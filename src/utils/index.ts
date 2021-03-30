@@ -4,7 +4,7 @@
  * @Author       : homxuwang
  * @Date         : 2021-03-29 15:14:05
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-03-30 16:37:08
+ * @LastEditTime : 2021-03-30 19:17:13
  */
 
 import { useEffect,useState } from "react"
@@ -35,7 +35,7 @@ export const useMount = (callback: () => void) => {
     },[])
 }
 // debounce是指不管前面有多少步相同的操作，函数只执行最后一次，这种函数适用于分部的单个操作很快，但是只需要执行一次的场景。
-export const useDebounce = (value: unknown,delay?: number): any => {
+export const useDebounce = <V>(value: V,delay?: number): V => {
     const [debounceValue,setDebounceValue] = useState(value)
 
     useEffect(() => {
