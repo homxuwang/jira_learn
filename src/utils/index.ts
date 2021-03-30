@@ -4,13 +4,13 @@
  * @Author       : homxuwang
  * @Date         : 2021-03-29 15:14:05
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-03-30 11:20:43
+ * @LastEditTime : 2021-03-30 16:37:08
  */
 
 import { useEffect,useState } from "react"
 
 //!!value 将value转为boolean值
-export const isFalsy = (value: any) => value === 0 ? false : !value
+export const isFalsy = (value: unknown) => value === 0 ? false : !value
 
 //在一个函数中改变传入的对象本身是不好的,会污染传入的对象
 
@@ -35,7 +35,7 @@ export const useMount = (callback: () => void) => {
     },[])
 }
 // debounce是指不管前面有多少步相同的操作，函数只执行最后一次，这种函数适用于分部的单个操作很快，但是只需要执行一次的场景。
-export const useDebounce = (value: any,delay?: number) => {
+export const useDebounce = (value: unknown,delay?: number): any => {
     const [debounceValue,setDebounceValue] = useState(value)
 
     useEffect(() => {
