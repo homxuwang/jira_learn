@@ -4,7 +4,7 @@
  * @Author       : homxuwang
  * @Date         : 2021-03-29 15:14:05
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-03-30 19:17:13
+ * @LastEditTime : 2021-03-31 09:28:21
  */
 
 import { useEffect,useState } from "react"
@@ -46,4 +46,19 @@ export const useDebounce = <V>(value: V,delay?: number): V => {
     },[value,delay])
 
     return debounceValue;
+}
+
+export const useArray = <T>(initialArray: T[]) => {
+    const [value, setValue] = useState(initialArray)
+    return {
+        value,
+        setValue,
+        add: (item: T) => setValue([...value,item]),
+        clear: () => setValue([]),
+        removeIndex: (index: number) => {
+            const copy = [...value]
+            copy.splice(index,1)
+            setValue(copy)
+        }
+    }
 }
