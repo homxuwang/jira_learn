@@ -4,26 +4,16 @@
  * @Author       : homxuwang
  * @Date         : 2021-03-31 09:52:11
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-03-31 16:23:36
+ * @LastEditTime : 2021-05-07 17:06:17
  */
+import { useAuth } from 'context/auth-context';
 import React, { FormEvent, FormEventHandler } from 'react';
 
 const apiUrl = process.env.REACT_APP_API_URL
 
 export const LoginScreen = () => {
-    const login = (param:{username:string, password:string}) => {        
-        fetch(`${apiUrl}/login`,{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(param)
-        }).then(async response => {
-            if(response.ok){
-                console.log(response.json())
-            }
-        })
-    }
+    const {login,user} = useAuth()
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         //阻止表单提交的默认行为
         event.preventDefault()
@@ -34,6 +24,12 @@ export const LoginScreen = () => {
     }
     return (
         <form onSubmit={handleSubmit}>
+            {
+                user ? <div>
+                    登录成功，用户名:{user?.name}
+                </div> : null
+            }
+            
             <div>
                 <label htmlFor="username">用户名</label>
                 <input type="text" id={'username'}/>
@@ -42,7 +38,7 @@ export const LoginScreen = () => {
                 <label htmlFor="password">密码</label>
                 <input type="password" id={'password'}/>
             </div>
-            <button type="submit">登录</button>
+            <button type="submit">注册</button>
         </form>
     )
 }

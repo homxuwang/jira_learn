@@ -4,7 +4,7 @@
  * @Author       : homxuwang
  * @Date         : 2021-03-29 13:58:10
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-03-30 11:14:19
+ * @LastEditTime : 2021-05-07 15:24:59
  */
 import React from 'react';
 import { useEffect, useState } from "react";
@@ -16,6 +16,7 @@ export interface User {
     email: string;
     title: string;
     organization: string;
+    token: string;
 }
  
 interface SearchPanelProps {

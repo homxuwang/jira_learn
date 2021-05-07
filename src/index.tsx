@@ -4,7 +4,7 @@
  * @Author       : homxuwang
  * @Date         : 2021-03-25 09:20:48
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-04-30 16:52:29
+ * @LastEditTime : 2021-05-07 16:52:25
  */
 import React from "react";
 import ReactDOM from "react-dom";
@@ -12,11 +12,14 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {loadDevTools} from 'jira-dev-tool'
+import { AppProviders } from "context";
 
 loadDevTools(() => ReactDOM.render(
     <React.StrictMode>
-      <App />
-    </React.StrictMode>,
+      <AppProviders>
+        <App />
+      </AppProviders>      
+    </React.StrictMode>, 
     document.getElementById("root")
   )
 )
