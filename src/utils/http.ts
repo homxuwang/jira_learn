@@ -4,7 +4,7 @@
  * @Author       : homxuwang
  * @Date         : 2021-05-08 15:31:00
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-08 16:16:00
+ * @LastEditTime : 2021-05-08 17:07:50
  */
 import qs from 'qs'
 import * as auth from 'auth-provider'
@@ -14,7 +14,8 @@ const apiUrl = process.env.REACT_APP_API_URL
 
 interface Config extends ResponseInit {
     token?: string,
-    data?: object
+    data?: object,
+    body?: string
 }
 
 //{ data, token, headers, ...customConfig }: Config = {}，设置为Config有默认值，当一个参数有默认值的时候，它自动变成可选的参数
