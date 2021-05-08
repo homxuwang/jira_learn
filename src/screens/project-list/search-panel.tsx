@@ -4,11 +4,11 @@
  * @Author       : homxuwang
  * @Date         : 2021-03-29 13:58:10
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-07 15:24:59
+ * @LastEditTime : 2021-05-08 15:07:56
  */
 import React from 'react';
 import { useEffect, useState } from "react";
- 
+
 //定义数据的类型
 export interface User {
     name: string;
@@ -18,7 +18,7 @@ export interface User {
     organization: string;
     token: string;
 }
- 
+
 interface SearchPanelProps {
     users: User[],
     param: {
@@ -28,15 +28,15 @@ interface SearchPanelProps {
     setParam: (param: SearchPanelProps['param']) => void;
 }
 
-export const SearchPanel = ({users, param,setParam}:SearchPanelProps) => {
-   
+export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
+
     return <form action="">
         <div>
             {/* setParam(Object.assign({},param,{name:evt.target.value})) */}
             <input type="text" value={param.name} onChange={evt => setParam({
                 ...param,
                 name: evt.target.value
-            })}/>
+            })} />
             <select value={param.personId} onChange={evt => setParam({
                 ...param,
                 personId: evt.target.value
