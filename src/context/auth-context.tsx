@@ -4,16 +4,28 @@
  * @Author       : homxuwang
  * @Date         : 2021-05-07 16:04:47
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-07 17:02:48
+ * @LastEditTime : 2021-05-10 16:10:04
  */
 
-import React,{ReactNode, useState} from 'react';
+import React, { ReactNode, useState } from 'react';
 import * as auth from 'auth-provider';
-import {User} from "screens/project-list/search-panel";
+import { User } from "screens/project-list/search-panel";
+import { http } from 'utils/http';
+import { useMount } from 'utils';
 
 interface AuthForm {
     username: string,
     password: string
+}
+
+const bootstrapUser = async () => {
+    let user = null
+    const token = auth.getToken()
+    if (token) {
+        const data = await http('me',{token})
+        user = data.user
+    }
+    return user
 }
 
 const AuthContext = React.createContext<{
@@ -24,22 +36,26 @@ const AuthContext = React.createContext<{
 } | undefined>(undefined)
 AuthContext.displayName = 'AuthContext'
 
-export const AuthProvider = ({children}:{children:ReactNode}) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
     //泛型，指定user的类型
-    const [user,setUser] = useState<User | null>(null)
+    const [user, setUser] = useState<User | null>(null)
 
     const login = (form: AuthForm) => auth.login(form).then(user => setUser(user))
     //这里的 setUser 等于 user => setUser(user) ，名曰point free
     const register = (form: AuthForm) => auth.register(form).then(setUser)
     const logout = () => auth.logout().then(() => setUser(null))
 
-    return <AuthContext.Provider children={children} value={{user,login,register,logout}} />;
+    useMount(() => {
+        bootstrapUser().then(setUser)
+    })
+    
+    return <AuthContext.Provider children={children} value={{ user, login, register, logout }} />;
 }
 
 //自定义hook
 export const useAuth = () => {
     const context = React.useContext(AuthContext)
-    if(!context){
+    if (!context) {
         throw new Error('useAuth必须在AuthProvider中使用')
     }
     return context
