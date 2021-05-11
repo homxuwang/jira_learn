@@ -4,11 +4,11 @@
  * @Author       : homxuwang
  * @Date         : 2021-03-29 13:57:34
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-03-30 11:15:51
+ * @LastEditTime : 2021-05-11 10:39:06
  */
 import React from 'react';
 import {User} from "screens/project-list/search-panel"
-
+import {Table} from 'antd'
 interface Project{
     id: string;
     name: string;
@@ -22,22 +22,24 @@ interface ListProps {
     users: User[]
 }
 export const List = ({list,users}:ListProps) => {
-    return <table>
-        <thead>
-            <tr>
-                <th>名称</th>
-                <th>负责人</th>
-            </tr>
-        </thead>
-        <tbody>
-            {
-                list.map(project => <tr key={project.id}>
-                    <td>{project.name}</td>
-                    {/* undefined.name */}
-                    {/* 加问号表示如果前面的值是undefined，那么整个表达式的值都是undefined */}
-                    <td>{users.find(user => user.id === project.personId)?.name || '未知'}</td>
-                </tr>)
+    return (
+    <Table 
+        pagination={false} 
+        columns={[
+        {
+            title: '名称',
+            dataIndex: 'name',
+            //按中文字符进行排序
+            sorter: (a,b) => a.name.localeCompare(b.name)
+        } ,{
+            title: '负责人',
+            render(value,project) {
+                return <span>
+                        {users.find(user => user.id === project.personId)?.name || '未知'}
+                </span>
             }
-        </tbody>
-    </table>
+        }
+        ]} 
+        dataSource={list}/>
+    )
 }
