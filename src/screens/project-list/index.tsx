@@ -4,7 +4,7 @@
  * @Author       : homxuwang
  * @Date         : 2021-03-29 13:56:30
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-12 20:44:32
+ * @LastEditTime : 2021-05-12 21:09:14
  */
 import React from 'react';
 import { useEffect, useState } from "react";
@@ -20,7 +20,6 @@ import { useHttp } from 'utils/http';
 import { useProjects } from 'utils/project';
 import { Typography } from 'antd';
 import { useUsers } from 'utils/user';
-import { Test } from './test';
 
 
 export const ProjectListScreen = () => {
@@ -36,7 +35,6 @@ export const ProjectListScreen = () => {
 
     return (
         <Constainer>
-            <Test />
             <h1>项目列表</h1>
             <SearchPanel users={users || []} param={param} setParam={setParam} />
             {error ? <Typography.Text type={"danger"}>{error.message}</Typography.Text> : null}
