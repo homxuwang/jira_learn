@@ -12,7 +12,7 @@ import right from 'assets/right.svg'
  * @Author       : homxuwang
  * @Date         : 2021-05-07 17:21:56
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-12 09:38:02
+ * @LastEditTime : 2021-05-12 15:51:35
  */
 export const UnauthenticatedApp = () => {
     const [isRegister, setIsRegister] = useState(false)
@@ -21,7 +21,6 @@ export const UnauthenticatedApp = () => {
         <Container>
             <Header />
             <Background />
-            
             <ShadowCard>
                 <Title>
                     {isRegister ? '请注册' : '请登录'}
