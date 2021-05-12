@@ -12,7 +12,7 @@ import right from 'assets/right.svg'
  * @Author       : homxuwang
  * @Date         : 2021-05-07 17:21:56
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-11 15:26:11
+ * @LastEditTime : 2021-05-12 09:38:02
  */
 export const UnauthenticatedApp = () => {
     const [isRegister, setIsRegister] = useState(false)
@@ -30,9 +30,9 @@ export const UnauthenticatedApp = () => {
                     isRegister ? <RegisterScreen /> : <LoginScreen />
                 }
                 <Divider />
-                <a onClick={() => setIsRegister(!isRegister)}>
+                <Button type={"link"} onClick={() => setIsRegister(!isRegister)}>
                     {isRegister ? '已经有帐号了？直接登录' : '没有账号？注册新账号'}
-                </a>
+                </Button>
             </ShadowCard>
         </Container>
     )

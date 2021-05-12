@@ -4,17 +4,15 @@
  * @Author       : homxuwang
  * @Date         : 2021-05-07 17:22:13
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-11 15:27:33
+ * @LastEditTime : 2021-05-12 09:42:02
  */
 import { useAuth } from 'context/auth-context';
-import React, { FormEvent, FormEventHandler } from 'react';
-import { Button, Form, Input } from 'antd'
+import React from 'react';
+import { Form, Input } from 'antd'
 import {LongButton} from './index'
 
-const apiUrl = process.env.REACT_APP_API_URL
-
 export const LoginScreen = () => {
-    const { login, user } = useAuth()
+    const { login } = useAuth()
 
     //这里的username和password与<Form.Item>中的name属性值对应
     const handleSubmit = (values: { username: string, password: string }) => {

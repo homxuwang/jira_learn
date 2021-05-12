@@ -4,20 +4,21 @@
  * @Author       : homxuwang
  * @Date         : 2021-03-25 09:20:48
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-11 15:29:01
+ * @LastEditTime : 2021-05-12 10:10:55
  */
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import {loadDevTools} from 'jira-dev-tool'
+import {loadServer, DevTools} from 'jira-dev-tool'
 //放在 jira-dev-tool后面可以替换上面的一些主题样式
 import 'antd/dist/antd.less'
 import { AppProviders } from "context";
 
-loadDevTools(() => ReactDOM.render(
+loadServer(() => ReactDOM.render(
     <React.StrictMode>
       <AppProviders>
+        <DevTools/>
         <App />
       </AppProviders>      
     </React.StrictMode>, 
