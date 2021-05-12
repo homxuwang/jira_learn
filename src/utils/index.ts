@@ -4,10 +4,10 @@
  * @Author       : homxuwang
  * @Date         : 2021-03-29 15:14:05
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-12 09:44:13
+ * @LastEditTime : 2021-05-12 21:00:55
  */
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 //!!value 将value转为boolean值
 export const isFalsy = (value: unknown) => value === 0 ? false : !value
@@ -67,8 +67,11 @@ export const useArray = <T>(initialArray: T[]) => {
 }
 
 export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) => {
-    const oldTitle = document.title
+    //useRef()的值在整个生命周期内都是不变的
+    const oldTitle = useRef(document.title).current
 
+    //页面加载时： 新title
+    //页面加载后： 旧title
     useEffect(() => {
         document.title = title
     }, [title])
@@ -79,6 +82,5 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
                 document.title = oldTitle
             }
         }
-        
-    }, [])
+    }, [keepOnUnmount,title])
 }
