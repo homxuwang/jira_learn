@@ -4,13 +4,14 @@
  * @Author       : homxuwang
  * @Date         : 2021-03-29 13:57:34
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-12 09:01:53
+ * @LastEditTime : 2021-05-12 15:04:01
  */
 import React from 'react';
 import { User } from "screens/project-list/search-panel"
-import { Table } from 'antd'
+import { Table, TableProps } from 'antd'
 import dayjs from 'dayjs';
-interface Project {
+
+export interface Project {
     id: string;
     name: string;
     personId: string;
@@ -19,11 +20,11 @@ interface Project {
     created: number;
 }
 
-interface ListProps {
-    list: Project[],
+//TableProps代表了Table组件的属性类型
+interface ListProps extends TableProps<Project>{
     users: User[]
 }
-export const List = ({ list, users }: ListProps) => {
+export const List = ({ users,...props }: ListProps) => {
     return (
         <Table
             pagination={false}
@@ -55,6 +56,7 @@ export const List = ({ list, users }: ListProps) => {
                     }
                 }
             ]}
-            dataSource={list} />
+             {...props}
+            />
     )
 }
