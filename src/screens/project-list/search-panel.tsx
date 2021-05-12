@@ -1,14 +1,15 @@
+/** @jsxImportSource @emotion/react */
 /*
  * @Description  : 
  * @version      : 
  * @Author       : homxuwang
  * @Date         : 2021-03-29 13:58:10
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-11 10:42:35
+ * @LastEditTime : 2021-05-12 08:54:25
  */
-import { Input, Select } from 'antd';
+import {jsx} from '@emotion/react';
 import React from 'react';
-import { useEffect, useState } from "react";
+import {Form, Input, Select } from 'antd';
 
 //定义数据的类型
 export interface User {
@@ -31,22 +32,30 @@ interface SearchPanelProps {
 
 export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
 
-    return <form action="">
-        <div>
+    return (
+    <Form css={{marginBottom: '2rem','>*':''}} layout={"inline"}>
+        <Form.Item>
             {/* setParam(Object.assign({},param,{name:evt.target.value})) */}
-            <Input type="text" value={param.name} onChange={evt => setParam({
-                ...param,
-                name: evt.target.value
+            <Input 
+                placeholder={'项目名'}
+                type="text" 
+                value={param.name} onChange={evt => setParam({
+                    ...param,
+                    name: evt.target.value
             })} />
-            <Select value={param.personId} onChange={value => setParam({
-                ...param,
-                personId: value
-            })}>
-                <Select.Option value={''}>负责人</Select.Option>
-                {
-                    users.map(user => <Select.Option key={user.id} value={user.id}>{user.name}</Select.Option>)
-                }
+        </Form.Item>
+        <Form.Item>
+            <Select value={param.personId} 
+                    onChange={value => setParam({
+                    ...param,
+                    personId: value
+                })}>
+                    <Select.Option value={''}>负责人</Select.Option>
+                    {
+                        users.map(user => <Select.Option key={user.id} value={user.id}>{user.name}</Select.Option>)
+                    }
             </Select>
-        </div>
-    </form>
+        </Form.Item>
+    </Form>
+    )
 }

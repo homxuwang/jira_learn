@@ -4,11 +4,12 @@
  * @Author       : homxuwang
  * @Date         : 2021-03-29 13:56:30
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-08 16:10:32
+ * @LastEditTime : 2021-05-12 08:55:28
  */
 import React from 'react';
 import { useEffect, useState } from "react";
 import { cleanObject, useMount, useDebounce } from 'utils';
+import styled from '@emotion/styled';
 
 import { List } from "./list"
 import { SearchPanel } from "./search-panel"
@@ -37,8 +38,16 @@ export const ProjectListScreen = () => {
         client('users').then(setUsers)
     })
 
-    return <div>
+    return (
+    <Constainer>
+        <h1>项目列表</h1>
         <SearchPanel users={users} param={param} setParam={setParam} />
         <List users={users} list={list} />
-    </div>
+    </Constainer>
+    )
 }
+
+
+const Constainer = styled.div`
+    padding: 3.2rem;
+`
