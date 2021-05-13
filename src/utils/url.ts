@@ -4,7 +4,7 @@
  * @Author       : homxuwang
  * @Date         : 2021-05-13 15:00:46
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-13 18:17:02
+ * @LastEditTime : 2021-05-13 20:16:00
  */
 
 import { useMemo } from "react"
@@ -16,7 +16,7 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
     const [searchParams, setSearchParam] = useSearchParams()
     return [
         useMemo(
-            () => keys.reduce((prev: K, key: K) => {
+            () => keys.reduce((prev, key) => {
                 //[key]表示key是一个变量
                 return { ...prev, [key]: searchParams.get(key) || '' }
             }, {} as { [key in K]: string }),
