@@ -4,7 +4,7 @@
  * @Author       : homxuwang
  * @Date         : 2021-03-29 15:14:05
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-12 21:00:55
+ * @LastEditTime : 2021-05-13 10:44:30
  */
 
 import { useEffect, useRef, useState } from "react"
@@ -84,3 +84,6 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
         }
     }, [keepOnUnmount,title])
 }
+
+//重置路由
+export const resetRoute = () => window.location.href = window.location.origin

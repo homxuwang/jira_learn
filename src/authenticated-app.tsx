@@ -4,7 +4,7 @@
  * @Author       : homxuwang
  * @Date         : 2021-05-07 17:21:09
  * @LastEditors  : homxuwang
- * @LastEditTime : 2021-05-12 22:24:56
+ * @LastEditTime : 2021-05-13 10:45:00
  */
 import styled from '@emotion/styled';
 import { Row } from 'components/lib';
@@ -16,6 +16,7 @@ import { Button, Dropdown, Menu } from 'antd';
 import { Navigate, Route, Routes } from 'react-router'
 import { BrowserRouter } from 'react-router-dom'
 import { ProjectScreen } from 'screens/project';
+import { resetRoute } from 'utils';
 /**
  * grid和flex各自的应用场景：
  * 1。 要考虑是一维布局还是二维布局
@@ -36,7 +37,9 @@ export const AuthenticatedApp = () => {
                 <BrowserRouter>
                     <Routes>
                         <Route path={'/projects'} element={<ProjectListScreen />} />
-                        <Route path={'/projects/:projectId'} element={<ProjectScreen />} />
+                        <Route path={'/projects/:projectId/*'} element={<ProjectScreen />} />
+                        {/* 如果上面的都匹配不到，则跳转到 /projects */}
+                        <Navigate to={'/projects'}/>
                     </Routes>
                 </BrowserRouter>
 
@@ -49,8 +52,10 @@ const PageHeader = () => {
     const { logout, user } = useAuth()
     return <Header between={true}>
         <HeaderLeft gap={true}>
-            {/**这样可以用svg形式渲染，可以自定义样式 */}
-            <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} />
+            <Button type={'link'} onClick={resetRoute}>
+                {/**这样可以用svg形式渲染，可以自定义样式 */}
+                <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} />
+            </Button>            
             <h2>项目</h2>
             <h2>用户</h2>
         </HeaderLeft>
