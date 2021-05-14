@@ -12,18 +12,16 @@ import { useAuth } from 'context/auth-context'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
-interface Config extends ResponseInit {
-    token?: string,
-    data?: object,
-    body?: string
+interface Config extends RequestInit {
+    token?: string;
+    data?: object;
 }
 
 //{ data, token, headers, ...customConfig }: Config = {}，设置为Config有默认值，当一个参数有默认值的时候，它自动变成可选的参数
 export const http = async (
-        endpoint: string, 
+        endpoint: string,
         { data, token, headers, ...customConfig }: Config = {}
     ) => {
-
     const config = {
         method: 'GET',
         headers: {
@@ -34,7 +32,7 @@ export const http = async (
         //但是仍可以被覆盖为POST或其他方法
         ...customConfig,
     };
-    
+
     //如果是GET方法，则需要的参数直接加在URL后面
     if (config.method.toUpperCase() === 'GET') {
         endpoint += `?${qs.stringify(data)}`;
@@ -45,7 +43,7 @@ export const http = async (
 
     //axios 和featch的表现不一样，它可以直接返回状态不为2xx的时候抛出异常
     return window.fetch(`${apiUrl}/${endpoint}`, config)
-        .then(async response => {
+        .then(async (response) => {
             //如果用户未授权（未登录或token失效），则要退出登录
             if (response.status === 401) {
                 await auth.logout()

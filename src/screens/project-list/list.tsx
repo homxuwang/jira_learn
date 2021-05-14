@@ -11,6 +11,8 @@ import { User } from "screens/project-list/search-panel"
 import { Table, TableProps } from 'antd'
 import dayjs from 'dayjs';
 import { BrowserRouter,Link } from 'react-router-dom';
+import { Pin } from "../../components/pin";
+import { useEditProject } from "../../utils/project";
 
 //TODO 把所有id改成number类型
 export interface Project {
@@ -24,13 +26,24 @@ export interface Project {
 
 //TableProps代表了Table组件的属性类型
 interface ListProps extends TableProps<Project> {
-    users: User[]
+    users: User[];
+    refresh?: () => void,
 }
 export const List = ({ users, ...props }: ListProps) => {
+  const {mutate} = useEditProject()
+  //柯里化编程风格，因为id是比pin先获取到的（pin在点击时才能知道，而project在加载后就知道了），
+  // 在调用时的函数就可以简写成 pinProject(project.id)，之前是pin => pinProject(project.id,pin)
+  const pinProject = (id:number) => (pin: boolean) => mutate({id,pin}).then(props.refresh)
     return (
         <Table
             pagination={false}
             columns={[
+                {
+                  title: <Pin checked={true} disabled={true}/>,
+                  render(value,project) {
+                    return <Pin checked={project.pin} onCheckedChange={pinProject(project.id)} />
+                  }
+                },
                 {
                     title: '名称',
                     //按中文字符进行排序
