@@ -10,11 +10,13 @@
 import {jsx} from '@emotion/react';
 import React from 'react';
 import {Form, Input, Select } from 'antd';
+import { Project } from "./list";
+import { UserSelect } from "../../components/user-select";
 
 //定义数据的类型
 export interface User {
     name: string;
-    id: string;
+    id: number;
     email: string;
     title: string;
     organization: string;
@@ -23,10 +25,8 @@ export interface User {
 
 interface SearchPanelProps {
     users: User[],
-    param: {
-        name: string;
-        personId: string;
-    },
+    //选取Project中的name和personId类型
+    param: Partial<Pick<Project, 'name' | 'personId'>>,
     setParam: (param: SearchPanelProps['param']) => void;
 }
 
@@ -45,16 +45,13 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
             })} />
         </Form.Item>
         <Form.Item>
-            <Select value={param.personId} 
-                    onChange={value => setParam({
-                    ...param,
-                    personId: value
-                })}>
-                    <Select.Option value={''}>负责人</Select.Option>
-                    {
-                        users.map(user => <Select.Option key={user.id} value={user.id}>{user.name}</Select.Option>)
-                    }
-            </Select>
+            <UserSelect
+              defaultOptionName={'负责人'}
+              value={param.personId}
+              onChange={value => setParam({
+                ...param,
+                personId: value
+              })} />
         </Form.Item>
     </Form>
     )
