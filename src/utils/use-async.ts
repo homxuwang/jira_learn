@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useMountedRef } from "./index";
 
 /*
  * @Description  : 
@@ -27,6 +28,7 @@ export const useAsync = <D>(InitialState?:State<D>) => {
         ...defaultInitialState,
         ...InitialState
     })
+    const mountedRef = useMountedRef()
     //useState直接传入函数的含义是：惰性初始化；所以要用useState保存函数，不能直接传入函数
     // https://zh-hans.reactjs.org/docs/hooks-reference.html#usestate
     //惰性初始化时执行最外面的一层函数，返回第二层的函数
@@ -59,7 +61,9 @@ export const useAsync = <D>(InitialState?:State<D>) => {
         setState({...state,stat: 'loading'})
         return promise
         .then((data) => {
-            setData(data)
+            //判断如果组件已经被加载且不是被卸载的状态，此时才setData
+            if(mountedRef.current)
+                setData(data)
             return data
         })
         .catch((error) => {
