@@ -9,6 +9,7 @@
 import qs from 'qs'
 import * as auth from 'auth-provider'
 import { useAuth } from 'context/auth-context'
+import { useCallback } from "react";
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -64,5 +65,7 @@ export const useHttp = () => {
     const { user } = useAuth()
     //因为[endpoint,config]和http函数的参数类型一致，所以可以直接使用Parameters<typeof http>获取它的类型
     //使用...操作符可以把[]中的东西“解放出来”，而不用每次传参都要用[]进行包裹
-    return (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token })
+    return useCallback(
+      (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token }),[user?.token]
+    )
 }

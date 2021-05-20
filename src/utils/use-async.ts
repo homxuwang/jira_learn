@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useCallback, useState } from "react";
 import { useMountedRef } from "./index";
+import { useHttp } from "./http";
 
 /*
  * @Description  : 
@@ -35,42 +36,48 @@ export const useAsync = <D>(InitialState?:State<D>) => {
     const [retry,setRetry] = useState(() => () => {})
 
     //调用setData说明请求成功
-    const setData = (data:D) => setState({
-        data,
-        stat: 'success',
-        error: null
-    })
+    const setData = useCallback(
+      (data:D) => setState({
+          data,
+          stat: 'success',
+          error: null
+      }),[]
+    )
 
-    const setError = (error:Error) => setState({
-        error,
-        stat: 'error',
-        data: null
-    })
+    const setError = useCallback(
+      (error:Error) => setState({
+          error,
+          stat: 'error',
+          data: null
+      }),[]
+    )
 
     //run用来触发异步请求
-    const run = (promise: Promise<D>,runConfig?: {retry: () => Promise<D>}) => {
-        if(!promise || !promise.then){
-            throw new Error('请传入 Promise 类型的数据！')
-        }
-        setRetry(() => () => {
-            if(runConfig?.retry){
-                run(runConfig?.retry(),runConfig)
-            }
-        })
-        //开始时读入state，并设置stat为loading状态
-        setState({...state,stat: 'loading'})
-        return promise
-        .then((data) => {
-            //判断如果组件已经被加载且不是被卸载的状态，此时才setData
-            if(mountedRef.current)
-                setData(data)
-            return data
-        })
-        .catch((error) => {
-            setError(error)
-            return error
-        })
-    }
+    const run = useCallback(
+      (promise: Promise<D>,runConfig?: {retry: () => Promise<D>}) => {
+          if(!promise || !promise.then){
+              throw new Error('请传入 Promise 类型的数据！')
+          }
+          setRetry(() => () => {
+              if(runConfig?.retry){
+                  run(runConfig?.retry(),runConfig)
+              }
+          })
+          //开始时读入state，并设置stat为loading状态
+          setState(prevState => ({...prevState,stat: 'loading'}))
+          return promise
+            .then((data) => {
+                //判断如果组件已经被加载且不是被卸载的状态，此时才setData
+                if(mountedRef.current)
+                    setData(data)
+                return data
+            })
+            .catch((error) => {
+                setError(error)
+                return error
+            })
+      },[mountedRef, setData,setError ]
+    )
     return {
         isIdle: state.stat === 'idle',
         isLoading: state.stat === 'loading',
