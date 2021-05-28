@@ -18,14 +18,15 @@ import { SearchPanel } from "./search-panel"
 // import * as qs from 'qs';
 import { useHttp } from 'utils/http';
 import { useProjects } from 'utils/project';
-import { Button, Typography } from "antd";
+import { Button,Typography } from "antd";
 import { useUsers } from 'utils/user';
 import { useUrlQueryParam } from 'utils/url';
 import { useProjectSearchParams } from "./util";
+import { Row } from "../../components/lib";
 
 
 //基本类型可以放在依赖里；组件状态可以放到依赖里；非组件状态的对象，绝不可以放到依赖里
-export const ProjectListScreen = () => {
+export const ProjectListScreen = (props:{setProjectModalOpen: (isOpen: boolean) => void}) => {
     useDocumentTitle('项目列表', false)
     const [param,setParam] = useProjectSearchParams()
     const { isLoading, error, data: list,retry } = useProjects(useDebounce(param, 200))
@@ -33,10 +34,17 @@ export const ProjectListScreen = () => {
 
     return (
         <Constainer>
+          <Row between={true}>
             <h1>项目列表</h1>
+            <Button onClick={() => props.setProjectModalOpen(true)}>创建项目</Button>
+          </Row>
             <SearchPanel users={users || []} param={param} setParam={setParam} />
             {error ? <Typography.Text type={"danger"}>{error.message}</Typography.Text> : null}
-            <List refresh={retry} loading={isLoading} users={users || []} dataSource={list || []} />
+            <List
+              setProjectModalOpen={props.setProjectModalOpen}
+              refresh={retry}
+              loading={isLoading}
+              users={users || []} dataSource={list || []} />
         </Constainer>
     )
 }
